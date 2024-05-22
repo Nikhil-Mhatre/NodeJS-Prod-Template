@@ -2,7 +2,6 @@
 import chalk from 'chalk';
 export default class Logging {
   public static info = (args: any): void => {
-    // eslint-disable-next-line no-console
     console.log(
       chalk.blue(`
 [${new Date().toLocaleString()}]
