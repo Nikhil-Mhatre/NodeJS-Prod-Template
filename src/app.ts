@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Logging from './library/logging';
+import Logging from './utils/logging';
 import express from 'express';
 
 process.loadEnvFile(); // Loading environment file using express in-built.
