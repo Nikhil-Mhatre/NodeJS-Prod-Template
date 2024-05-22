@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Logging from './utils/logging';
-import express from 'express';
+import express, { Request, Response } from 'express';
 
 process.loadEnvFile(); // Loading environment file using express in-built.
 const PORT = process.env.PORT || 4757;
@@ -29,6 +29,10 @@ app.use(express.urlencoded({ extended: true }));
  *  the application/json content type.
  */
 app.use(express.json({ limit: '5mb', type: 'application/json', strict: true }));
+
+app.use('/', (_: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello World' });
+});
 
 // Connecting to Mongodb Database
 mongoose
