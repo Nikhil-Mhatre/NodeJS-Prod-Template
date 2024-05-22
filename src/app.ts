@@ -25,11 +25,10 @@ app.use(express.urlencoded({ extended: true }));
  *  strict: This ensures stricter parsing,
  *  rejecting invalid JSON payloads. Keep it true for robustness.
  *
- *  type: By default, express.json parses requests with 
+ *  type: By default, express.json parses requests with
  *  the application/json content type.
  */
 app.use(express.json({ limit: '5mb', type: 'application/json', strict: true }));
-
 
 // Connecting to Mongodb Database
 mongoose
