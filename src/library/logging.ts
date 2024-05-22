@@ -1,7 +1,7 @@
 // src/library/logging.ts
 import chalk from 'chalk';
 export default class Logging {
-  public static info = (args: any): void => {
+  public static info = (args: string): void => {
     console.log(
       chalk.blue(`
 [${new Date().toLocaleString()}]
@@ -10,8 +10,7 @@ export default class Logging {
     );
   };
 
-  public static warn = (args: any): void => {
-    // eslint-disable-next-line no-console
+  public static warn = (args: string): void => {
     console.log(
       chalk.yellow(`
 [${new Date().toLocaleString()}]
@@ -20,8 +19,7 @@ export default class Logging {
     );
   };
 
-  public static error = (args: any): void => {
-    // eslint-disable-next-line no-console
+  public static error = (args: string): void => {
     console.log(
       chalk.red(`
 [${new Date().toLocaleString()}]
@@ -30,8 +28,7 @@ export default class Logging {
     );
   };
 
-  public static success = (args: any): void => {
-    // eslint-disable-next-line no-console
+  public static success = (args: string): void => {
     console.log(
       chalk.magenta(`
 [${new Date().toLocaleString()}]

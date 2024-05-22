@@ -19,3 +19,5 @@ This template provides a robust foundation for building scalable Node.js applica
 - Jest: Enables unit testing for ensuring code functionality.
 
 ## [Click here to view blog how to setup](https://yasirhamm.medium.com/how-to-set-up-a-production-ready-project-with-node-and-typescript-19db65c55a4e)
+
+## [Click here to view husky setup](https://www.youtube.com/watch?v=ZXW6Jn6or1w)
