@@ -34,6 +34,16 @@ app.use('/', (_: Request, res: Response) => {
   res.status(200).json({ message: 'Hello World' });
 });
 
+app.use('/products', (_: Request, res: Response) => {
+  res.status(200).json({
+    message: 'Successfully fetched all products',
+    products: {
+      title: 'Pencil',
+      price: '5',
+    },
+  });
+});
+
 // Connecting to Mongodb Database
 mongoose
   .connect(String(process.env.MONGODB_URL))

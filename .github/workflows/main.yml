@@ -1,31 +1,29 @@
-name: node-js-Deployment
+name: CICD
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: [ubuntu-latest]
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install Dependencies
-        run: npm install
-      - name: Genrate Deployment Package
-        run: zip -r nodejs-app-build.zip .
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v22
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: 'nodejs-app'
-          environment_name: 'nodejs-app-env'
-          version_label: ${{ github.sha }}
-          region: ap-south-1
-          deployment_package: nodejs-app-build.zip
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker image
+        run: docker build -t nikhilmhatre0317/nodejs-prod-template
+      - name: Publish image to docker hub
+        run: docker push nikhilmhatre0317/nodejs-prod-template:latest
+
+  deploy:
+    needs: build
+    runs-on: [my-backend-test]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull nikhilmhatre0317/nodejs-prod-template:latest
+      - name: Delete old container
+        run: docker rm -f nodejs-prod-template-container
+      - name: Run docker container
+        run: docker run -d -p 4757:4757 --name nodejs-prod-template-container nikhilmhatre0317/nodejs-prod-template
