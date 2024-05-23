@@ -30,10 +30,6 @@ app.use(express.urlencoded({ extended: true }));
  */
 app.use(express.json({ limit: '5mb', type: 'application/json', strict: true }));
 
-app.use('/', (_: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello World' });
-});
-
 app.use('/products', (_: Request, res: Response) => {
   res.status(200).json({
     message: 'Successfully fetched all products',
@@ -42,6 +38,10 @@ app.use('/products', (_: Request, res: Response) => {
       price: '5',
     },
   });
+});
+
+app.use('/', (_: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello World' });
 });
 
 // Connecting to Mongodb Database
