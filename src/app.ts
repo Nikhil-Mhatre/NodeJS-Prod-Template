@@ -1,10 +1,15 @@
-import mongoose from 'mongoose';
 import Logging from './utils/logging';
 import express, { Request, Response } from 'express';
+import connectDB from './db/dbConnect';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 process.loadEnvFile(); // Loading environment file using express in-built.
 const PORT = process.env.PORT || 4757;
 const app = express();
+
+const corsOptions = { origin: process.env.CORS_ORIGIN, credential: true };
+app.use(cors(corsOptions));
 
 /*
  *  This Middleware parses incoming request bodies that
@@ -30,28 +35,24 @@ app.use(express.urlencoded({ extended: true }));
  */
 app.use(express.json({ limit: '5mb', type: 'application/json', strict: true }));
 
-app.use('/products', (_: Request, res: Response) => {
+app.use(express.static('public'));
+app.use(cookieParser());
+
+app.use('/api/v1/healthcheck', (_: Request, res: Response) => {
   res.status(200).json({
-    message: 'Successfully fetched all products',
-    products: {
-      title: 'Pencil',
-      price: '5',
-    },
+    data: 'OK',
+    message: 'Health check passed',
+    statusCode: 200,
+    success: true,
   });
 });
 
-app.use('/', (_: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello World' });
-});
-
-// Connecting to Mongodb Database
-mongoose
-  .connect(String(process.env.MONGODB_URL))
+connectDB()
   .then(() => {
     app.listen(PORT, () => {
       Logging.success(`\n🚀 Backend Server 🚀\n-> Running at Port: ${PORT}`);
     });
   })
-  .catch((err: Error) => {
-    Logging.error(`❌****** Failed to start backend server ******❌\n${err} `);
+  .catch((err) => {
+    Logging.error(`❌****** Failed to start backend server ******❌\n${err}`);
   });

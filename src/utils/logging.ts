@@ -19,7 +19,7 @@ export default class Logging {
     );
   };
 
-  public static error = (args: string): void => {
+  public static error = (args: string) => {
     console.log(
       chalk.red(`
 [${new Date().toLocaleString()}]
